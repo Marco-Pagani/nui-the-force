@@ -16,7 +16,8 @@ public class proxy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        target.localPosition = gameObject.transform.localPosition * (1/scale);
+        target.localPosition = gameObject.transform.localPosition;
+        target.localRotation = gameObject.transform.localRotation;
         
     }
 }

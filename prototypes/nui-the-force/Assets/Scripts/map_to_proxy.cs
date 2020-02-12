@@ -15,11 +15,12 @@ public float scaleFactor = 1;
     }
 
     void createProxyScene(){
-        //copyTo.scale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+        copyTo.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
         foreach (Transform child in mainScene){
             var proxyPos = child.InverseTransformPoint(copyFrom.position) * scaleFactor;
             GameObject proxyObj = Instantiate(child, copyTo).gameObject;
-            proxyObj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            proxyObj.transform.localPosition = child.localPosition;
+            proxyObj.transform.localRotation = child.localRotation;
             var proxyComp = proxyObj.AddComponent<proxy>() as proxy;
             proxyComp.target = child;
             proxyComp.scale = scaleFactor;

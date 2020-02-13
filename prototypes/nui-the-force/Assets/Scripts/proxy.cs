@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class proxy : MonoBehaviour
-{
+public class Proxy : MonoBehaviour {
 
-    public Transform target;
-    public float scale;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public Transform copyOrigin; // the point from which the proxy scene was centered
+    public Transform sceneObject; // the object that this proxy represents
+
+    void Start () {
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        target.localPosition = gameObject.transform.localPosition;
-        target.localRotation = gameObject.transform.localRotation;
-        
+    void Update () {
+        updatePosition (); //for debugging
+    }
+
+    //call this function when the proxy is moved to update the real object
+    public void updatePosition () {
+        sceneObject.position = gameObject.transform.localPosition + copyOrigin.position;
+        sceneObject.localRotation = gameObject.transform.localRotation;
+
     }
 }

@@ -19,16 +19,19 @@ public class map_to_proxy : MonoBehaviour
     // this point will be parented to the user's hand so it follows their movements
     public Transform proxyOrigin;
 
-// scale of the proxy objects relative to the real
+    // scale of the proxy objects relative to the real
     public float scaleFactor = 0.5f;
+
+    // mex distance from the copy origin that objects will be copied
+    public float renderDistance = 10f;
 
 
     void Start()
     {
-        
+
     }
 
-//this should be called when the user reaches for an object
+    //this should be called when the user reaches for an object
     public void createProxyScene()
     {
         // delete old scene in case it exists
@@ -37,10 +40,13 @@ public class map_to_proxy : MonoBehaviour
         // scale proxy to desired size
         proxyOrigin.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
 
-        //TODO: only clone objects that are withing a certain range of the copy origin
-        // create some sort of shader to fade them out beyond a certain range
-        foreach (Transform child in sceneObjects)
+        // get objects within range of the copy origin
+        //TODO: create some sort of shader to fade them out beyond a certain range
+        Collider[] area = Physics.OverlapSphere(copyOrigin.position, renderDistance);
+
+        foreach (Collider c in area)
         {
+            var child = c.transform;
             //create clone
             GameObject proxyObj = Instantiate(child, proxyOrigin).gameObject;
             //set clone's position relative to copy origin
@@ -53,12 +59,14 @@ public class map_to_proxy : MonoBehaviour
         }
     }
 
-    public void deleteProxyScene(){
-        foreach(Transform child in proxyOrigin)
+    public void deleteProxyScene()
+    {
+        foreach (Transform child in proxyOrigin)
             Destroy(child.gameObject);
     }
 
-    void Update(){
+    void Update()
+    {
         if (Input.GetKeyDown("e"))
         {
             createProxyScene();

@@ -125,7 +125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4239798713943006, guid: c42b35532e0b3ca428d6923660102d7c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.6585913
+      value: -2.22
       objectReference: {fileID: 0}
     - target: {fileID: 4239798713943006, guid: c42b35532e0b3ca428d6923660102d7c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -187,7 +187,7 @@ GameObject:
   m_Layer: 0
   m_Name: Main Scene
   m_TagString: Untagged
-  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -458,6 +458,7 @@ MonoBehaviour:
   copyOrigin: {fileID: 1600427532}
   proxyOrigin: {fileID: 1404338893}
   scaleFactor: 0.5
+  renderDistance: 10
 --- !u!4 &780905451
 Transform:
   m_ObjectHideFlags: 0
@@ -702,7 +703,7 @@ GameObject:
   m_Layer: 0
   m_Name: Copy To
   m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -732,7 +733,7 @@ GameObject:
   m_Layer: 0
   m_Name: Copy From
   m_TagString: Untagged
-  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

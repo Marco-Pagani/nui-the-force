@@ -24,7 +24,6 @@ namespace Leap.Unity.Interaction {
 
   [DisallowMultipleComponent]
   public class InteractionHand : InteractionController {
-
     #region Inspector
 
     [SerializeField]

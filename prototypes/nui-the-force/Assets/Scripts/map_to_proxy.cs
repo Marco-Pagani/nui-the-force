@@ -7,6 +7,8 @@ public class map_to_proxy : MonoBehaviour
 {
 
     //TODO: these variable names could be better
+	
+	public Transform gaze;
 
     // parent of the 'real' objects that are being remotely controlled
     public Transform sceneObjects;
@@ -25,11 +27,25 @@ public class map_to_proxy : MonoBehaviour
     // mex distance from the copy origin that objects will be copied
     public float renderDistance = 10f;
 
-
-    void Start()
-    {
-
-    }
+	public void castGaze(){
+		Vector3 lookDirection = gaze.forward;
+		
+		RaycastHit hit;
+        
+        if (Physics.Raycast(gaze.position, gaze.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+        {
+            //Debug.DrawRay(gaze.position, gaze.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+			copyOrigin.transform.position = hit.point;
+			createProxyScene();
+            Debug.Log("Did Hit");
+        }
+        else
+        {
+            
+            Debug.Log("Did not Hit");
+        }
+		
+	}
 
     //this should be called when the user reaches for an object
     public void createProxyScene()
@@ -46,6 +62,7 @@ public class map_to_proxy : MonoBehaviour
 
         foreach (Collider c in area)
         {
+			if(c.transform != null && c.transform.IsChildOf(sceneObjects)){
             var child = c.transform;
             //create clone
             GameObject proxyObj = Instantiate(child, proxyOrigin).gameObject;
@@ -56,6 +73,7 @@ public class map_to_proxy : MonoBehaviour
             var proxyComp = proxyObj.AddComponent<Proxy>() as Proxy;
             proxyComp.copyOrigin = copyOrigin;
             proxyComp.sceneObject = child;
+			}
         }
     }
 
@@ -69,7 +87,7 @@ public class map_to_proxy : MonoBehaviour
     {
         if (Input.GetKeyDown("e"))
         {
-            createProxyScene();
+            castGaze();
         }
         if (Input.GetKeyDown("r"))
         {

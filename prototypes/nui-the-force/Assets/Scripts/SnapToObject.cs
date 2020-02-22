@@ -6,6 +6,7 @@ public class SnapToObject : MonoBehaviour
 {
 	public GameObject root;
 	public string name;
+    public Vector3 offset = new Vector3(0f, 0.2f, 0f);
 	
 	private Transform destination;
 	
@@ -20,18 +21,23 @@ public class SnapToObject : MonoBehaviour
     {
         if (destination == null)
 		{
-			Transform obj = root.transform.Find(name);
-			if (obj != null)
-			{
-				//transform.position = obj.position;
-				//transform.parent = obj;
-				destination = obj;
-			}
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                destination = root.transform;
+            }
+            else
+            {
+                Transform obj = root.transform.Find(name);
+                if (obj != null)
+                {
+                    destination = obj;
+                }
+            }
 		}
 		
 		if (destination != null)
 		{
-			transform.position = destination.position + new Vector3(0f, 0.2f, 0f);
+			transform.position = destination.position + offset;
 		}
     }
 }

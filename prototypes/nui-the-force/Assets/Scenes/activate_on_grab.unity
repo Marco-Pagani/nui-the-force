@@ -555,7 +555,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596341417}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -656,7 +656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   root: {fileID: 478237406}
   name: Palm Transform
-  offset: {x: 0, y: 0.075, z: 0}
+  offset: {x: 0, y: 0.05, z: -0.15}
 --- !u!1 &1091207370
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,6 +891,7 @@ GameObject:
   - component: {fileID: 1633069268}
   - component: {fileID: 1633069267}
   - component: {fileID: 1633069269}
+  - component: {fileID: 1633069270}
   m_Layer: 0
   m_Name: '[GestureManager]'
   m_TagString: Untagged
@@ -910,7 +911,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bec7ad4835e3db4ea12a45446c7d0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  proxyManager: {fileID: 0}
+  proxyManager: {fileID: 1836188327}
+  copyTo: {fileID: 921118375}
 --- !u!4 &1633069268
 Transform:
   m_ObjectHideFlags: 0
@@ -976,8 +978,60 @@ MonoBehaviour:
   Middle: 2
   Ring: 2
   Pinky: 2
-  MinimumExtendedCount: 2
+  MinimumExtendedCount: 3
   MaximumExtendedCount: 5
+  ShowGizmos: 1
+--- !u!114 &1633069270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633069266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c057ae8396c1146c98a146b81dcc5870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1633069267}
+        m_MethodName: OnDirectionActivate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnDeactivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1633069267}
+        m_MethodName: OnDirectionDeactivate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  Period: 0.1
+  HandModel: {fileID: 2099395834}
+  PointingType: 0
+  PointingDirection: {x: 0, y: 1, z: -13.23}
+  TargetObject: {fileID: 0}
+  OnAngle: 43.2
+  OffAngle: 80.2
   ShowGizmos: 1
 --- !u!1001 &1644565695
 PrefabInstance:
@@ -1111,16 +1165,16 @@ PrefabInstance:
       propertyPath: _sphereMesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 5122132251623583614, guid: 4022769103fb7d348914e0b9d1e1a533,
-        type: 3}
-      propertyPath: m_EventMask.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: 5122314551761966706, guid: 4022769103fb7d348914e0b9d1e1a533,
         type: 3}
       propertyPath: _material
       value: 
       objectReference: {fileID: 2100000, guid: ce36e4986ed6dfa4bb5e7b0b12ab3d63, type: 2}
+    - target: {fileID: 5122132251623583614, guid: 4022769103fb7d348914e0b9d1e1a533,
+        type: 3}
+      propertyPath: m_EventMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4022769103fb7d348914e0b9d1e1a533, type: 3}
 --- !u!1001 &1834214343

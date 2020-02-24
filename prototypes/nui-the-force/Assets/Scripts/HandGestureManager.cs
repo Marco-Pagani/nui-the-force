@@ -28,6 +28,11 @@ public class HandGestureManager : MonoBehaviour
         {
             proxyManager = FindObjectOfType<map_to_proxy>();
         }
+
+        if (copyTo == null)
+        {
+            copyTo = GameObject.Find("Copy To");
+        }
     }
 
     public void StartGrasp()
@@ -44,13 +49,13 @@ public class HandGestureManager : MonoBehaviour
 
     public void OnDirectionActivate()
     {
-        Debug.Log("PalmUp");
+        //Debug.Log("PalmUp");
         palmUp = true;
     }
 
     public void OnDirectionDeactivate()
     {
-        Debug.Log("PalmDown");
+        //Debug.Log("PalmDown");
         palmUp = false;
     }
 
@@ -71,7 +76,8 @@ public class HandGestureManager : MonoBehaviour
                     }
                     else
                     {
-                        proxyManager.createProxyScene();
+                        proxyManager.createProxyScene(); // TODO Make method specifically for doing all the things
+                        //proxyManager.castGaze();
                         curState = ProxyState.Grabbed;
                     }
                 }

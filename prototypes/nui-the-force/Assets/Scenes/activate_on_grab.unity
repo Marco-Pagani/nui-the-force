@@ -712,7 +712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   root: {fileID: 478237406}
   name: Palm Transform
-  offset: {x: 0, y: 0.2, z: 0}
+  offset: {x: 0.02, y: 0.05, z: -0.05}
 --- !u!1 &1091207370
 GameObject:
   m_ObjectHideFlags: 0
@@ -1208,7 +1208,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2030725106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.496, y: -1.061, z: 4.785}
+  m_LocalPosition: {x: 0.496, y: -1.061, z: 4.846}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1452,16 +1452,6 @@ PrefabInstance:
       propertyPath: hand
       value: 
       objectReference: {fileID: 1644565698}
-    - target: {fileID: 7209919909037283311, guid: 99963e07d1e263c428621dd9acb8301c,
-        type: 3}
-      propertyPath: graspOnThreshold
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7209919909037283311, guid: 99963e07d1e263c428621dd9acb8301c,
-        type: 3}
-      propertyPath: graspOffThreshold
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 7209919910279128251, guid: 99963e07d1e263c428621dd9acb8301c,
         type: 3}
       propertyPath: HandModel
@@ -1472,15 +1462,5 @@ PrefabInstance:
       propertyPath: hand
       value: 
       objectReference: {fileID: 1644565697}
-    - target: {fileID: 7209919910279128249, guid: 99963e07d1e263c428621dd9acb8301c,
-        type: 3}
-      propertyPath: graspOnThreshold
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7209919910279128249, guid: 99963e07d1e263c428621dd9acb8301c,
-        type: 3}
-      propertyPath: graspOffThreshold
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99963e07d1e263c428621dd9acb8301c, type: 3}

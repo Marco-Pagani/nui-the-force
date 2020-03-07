@@ -42,8 +42,9 @@ public class SnapToObject : MonoBehaviour
             //transform.position = destination.position + offset; // Doesn't work relative to hand
             //transform.position = destination.InverseTransformPoint(offset); // Weird rotation and scaling issues
             transform.position = destination.position;
-            transform.position += new Vector3(flipXOffset ? -offset.x : offset.x, offset.y, 0);
+            transform.position += new Vector3(0, offset.y, 0);
             transform.position += Vector3.ProjectOnPlane(destination.forward, Vector3.up).normalized * offset.z; // Means closer or further from camera
+            transform.position += Vector3.ProjectOnPlane(destination.right, Vector3.up).normalized * (flipXOffset ? -offset.x : offset.x); // Medial/lateral position from hand
         }
     }
 

@@ -27,25 +27,28 @@ public class map_to_proxy : MonoBehaviour
     // mex distance from the copy origin that objects will be copied
     public float renderDistance = 10f;
 
-	public void castGaze(){
+	public bool castGaze(){
 		Vector3 lookDirection = gaze.forward;
 		
 		RaycastHit hit;
         
-        if (Physics.Raycast(gaze.position, gaze.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+        if (Physics.SphereCast(gaze.position,2, gaze.TransformDirection(Vector3.forward), out hit, Mathf.Infinity,(1 << 9)))
         {
             //Debug.DrawRay(gaze.position, gaze.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
 			copyOrigin.transform.position = hit.point;
 			createProxyScene();
             Debug.Log("Did Hit");
+            return true;
         }
         else
         {
             
             Debug.Log("Did not Hit");
+            return false;
         }
 		
 	}
+
 
     //this should be called when the user reaches for an object
     public void createProxyScene()

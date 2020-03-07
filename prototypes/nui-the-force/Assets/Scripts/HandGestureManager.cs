@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Leap.Unity.Interaction;
 
 public class HandGestureManager : MonoBehaviour
 {
@@ -13,13 +14,15 @@ public class HandGestureManager : MonoBehaviour
 
     private ProxyState curState = ProxyState.Default;
 
+	private HandGestureState activeHand;
+
     public map_to_proxy proxyManager;
     public GameObject copyTo;
 
-    bool proxyCreated = false;
+	public HandGestureState leftHand;
+	public HandGestureState rightHand;
 
-    bool isGrasp = false;
-    bool palmUp = false;
+    private bool proxyCreated = false;
 
     // Start is called before the first frame update
     void Start()
@@ -33,113 +36,146 @@ public class HandGestureManager : MonoBehaviour
         {
             copyTo = GameObject.Find("Copy To");
         }
+
+		activeHand = leftHand;
+
+        // Register events for detecting active hand
+        leftHand.OnGraspChanged += delegate (bool state)
+        {
+            if (state)
+            {
+                SetActiveHand(leftHand);
+            }
+        };
+
+        rightHand.OnGraspChanged += delegate (bool state)
+        {
+            if (state)
+            {
+                SetActiveHand(rightHand);
+            }
+        };
     }
 
-    public void StartGrasp()
-    {
-        //Debug.Log("GrabStart");
-        isGrasp = true;
-    }
+	public void SetActiveHand(HandGestureState hand)
+	{
+		if (curState == ProxyState.Default)
+		{
+            Debug.Log("SetActiveHand: " + (hand == leftHand ? "left" : "right"));
+            copyTo.GetComponent<SnapToObject>().SetRoot(hand.hand.gameObject, hand == leftHand);
+            activeHand = hand;
+        }
+	}
 
-    public void EndGrasp()
-    {
-        //Debug.Log("GrabEnd");
-        isGrasp = false;
-    }
+	private void EnableHandInteraction(HandGestureState hand)
+	{
+        if (hand != null)
+        {
+    		hand.hand.hoverEnabled = true;
+    		hand.hand.contactEnabled = true;
+    		hand.hand.graspingEnabled = true;
+        }
+	}
 
-    public void OnDirectionActivate()
-    {
-        //Debug.Log("PalmUp");
-        palmUp = true;
-    }
+	private void DisableHandInteraction(HandGestureState hand)
+	{
+        if (hand != null)
+        {
+            hand.hand.hoverEnabled = false;
+            hand.hand.contactEnabled = false;
+            hand.hand.graspingEnabled = false;
+        }
+	}
 
-    public void OnDirectionDeactivate()
+    private void TransitionState(ProxyState nextState)
     {
-        //Debug.Log("PalmDown");
-        palmUp = false;
+        switch (nextState)
+        {
+            default:
+            case ProxyState.Default:
+                EnableHandInteraction(activeHand);
+                proxyManager.deleteProxyScene();
+                copyTo.SetActive(false);
+                break;
+            case ProxyState.Grabbed:
+                proxyManager.createProxyScene(); // TODO Make method specifically for doing all the things
+                //proxyManager.castGaze();
+                DisableHandInteraction(activeHand);
+                break;
+            case ProxyState.Flipped:
+                copyTo.SetActive(true);
+                break;
+        }
+
+        Debug.Log(nextState + ": " + (activeHand == leftHand ? "left" : "right"));
+        curState = nextState;
     }
 
     private void Update()
     {
+		bool isGrasp = activeHand.isGrasp;
+		bool palmUp = activeHand.palmUp;
+
         switch (curState)
         {
             default:
             case ProxyState.Default:
-                proxyManager.deleteProxyScene();
-                copyTo.SetActive(false);
+                if (activeHand.hand.isGraspingObject || activeHand.hand.isPrimaryHovering) // Don't interfere with grabbing close objects
+                {
+                    Debug.Log("Ignore gesture");
+                    break;
+                }
 
                 if (isGrasp)
                 {
-                    if (palmUp)
-                    {
-
-                    }
+                    if (palmUp) { }
                     else
                     {
-                        proxyManager.createProxyScene(); // TODO Make method specifically for doing all the things
-                        //proxyManager.castGaze();
-                        curState = ProxyState.Grabbed;
+                        TransitionState(ProxyState.Grabbed);
                     }
                 }
                 else
                 {
-                    if (palmUp)
-                    {
-
-                    }
-                    else
-                    {
-
-                    }
+                    if (palmUp) { }
+                    else { }
                 }
                 break;
             case ProxyState.Grabbed:
-                if (isGrasp)
+				if (isGrasp)
                 {
-                    if (palmUp)
-                    {
-
-                    }
-                    else
-                    {
-
-                    }
+                    if (palmUp) { }
+                    else { }
                 }
                 else
                 {
                     if (palmUp)
                     {
-                        curState = ProxyState.Flipped;
+                        TransitionState(ProxyState.Flipped);
                     }
                     else
                     {
-                        curState = ProxyState.Default;
+                        TransitionState(ProxyState.Default);
                     }
                 }
                 break;
-            case ProxyState.Flipped:
-                copyTo.SetActive(true);
-
+			case ProxyState.Flipped:
                 if (isGrasp)
                 {
                     if (palmUp)
                     {
-                        curState = ProxyState.Default;
+                        TransitionState(ProxyState.Default);
                     }
                     else
                     {
-                        curState = ProxyState.Default;
+                        TransitionState(ProxyState.Default);
                     }
                 }
                 else
                 {
-                    if (palmUp)
-                    {
-
-                    }
+                    if (palmUp) { }
                     else
                     {
-                        curState = ProxyState.Default;
+                        TransitionState(ProxyState.Default);
                     }
                 }
                 break;

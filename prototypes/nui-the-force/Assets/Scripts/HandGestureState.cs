@@ -11,10 +11,14 @@ public class HandGestureState : MonoBehaviour
 
     public InteractionHand hand;
 
-	public bool isGrasp = false;
+    public float graspOnThreshold = 0.9f;
+    public float graspOffThreshold = 0.5f;
+    public float graspPercent = 0;
+    public bool isGrasp = false;
 	public bool palmUp = false;
 
-	public void StartGrasp()
+
+    public void StartGrasp()
 	{
         if (hand.isTracked)
         {
@@ -49,7 +53,21 @@ public class HandGestureState : MonoBehaviour
 		if (!hand.isTracked)
 		{
             // Reset grasp (sometimes gets out of sync)
-            isGrasp = false;
+            graspPercent = 0;
+        }
+		else
+		{
+            // New method to check for hand grasp
+            graspPercent = Mathf.Min(hand.leapHand.GrabAngle / Mathf.PI, 1);
+        }
+
+        if (graspPercent > graspOnThreshold)
+        {
+            StartGrasp();
+        }
+        else if (graspPercent < graspOffThreshold)
+        {
+            EndGrasp();
         }
 	}
 }

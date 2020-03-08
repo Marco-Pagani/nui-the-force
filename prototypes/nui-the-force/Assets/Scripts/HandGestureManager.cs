@@ -22,6 +22,12 @@ public class HandGestureManager : MonoBehaviour
 	public HandGestureState leftHand;
 	public HandGestureState rightHand;
 
+    private GlowEffect activeHandGlow;
+
+    public GlowEffect leftHandGlow;
+
+    public GlowEffect rightHandGlow;
+
     private Vector3 originalProxyScale = Vector3.one;
     private float minGrabPercent = 0.5f;
     private float maxGrabPercent = 1f;
@@ -38,7 +44,7 @@ public class HandGestureManager : MonoBehaviour
         {
             copyTo = GameObject.Find("Copy To");
         }
-
+        
 		activeHand = leftHand;
 
         // Register events for detecting active hand
@@ -66,6 +72,7 @@ public class HandGestureManager : MonoBehaviour
             Debug.Log("SetActiveHand: " + (hand == leftHand ? "left" : "right"));
             copyTo.GetComponent<SnapToObject>().SetRoot(hand.hand.gameObject, hand == leftHand);
             activeHand = hand;
+            activeHandGlow = hand == leftHand ? leftHandGlow : rightHandGlow;
         }
 	}
 
@@ -89,6 +96,37 @@ public class HandGestureManager : MonoBehaviour
         }
 	}
 
+    private void SetHandGlow(Color color, GlowEffect handGlow=null)
+    {
+        if (handGlow == null)
+        {
+            handGlow = activeHandGlow;
+        }
+
+        if (handGlow)
+        {
+            handGlow.SetColor(color);
+        }
+    }
+
+    private float GetBoundedPercent(float percent, float min=0, float max=1, float outMin=0, float outMax=1)
+    {
+        return Mathf.Max(Mathf.Min((percent - min) / (max - min), outMax), outMin);
+    }
+
+    private void SetHandGlow(float opacity, GlowEffect handGlow=null)
+    {
+        if (handGlow == null)
+        {
+            handGlow = activeHandGlow;
+        }
+
+        if (handGlow)
+        {
+            handGlow.SetOpacity(opacity);
+        }
+    }
+
     private void TransitionState(ProxyState nextState)
     {
         switch (nextState)
@@ -98,20 +136,35 @@ public class HandGestureManager : MonoBehaviour
                 EnableHandInteraction(activeHand);
                 proxyManager.deleteProxyScene();
                 copyTo.SetActive(false);
+
+                SetHandGlow(Color.white, leftHandGlow);
+                SetHandGlow(Color.white, rightHandGlow);
+                SetHandGlow(0, leftHandGlow);
+                SetHandGlow(0, rightHandGlow);
+
                 break;
             case ProxyState.Grabbed:
                 proxyManager.createProxyScene(); // TODO Make method specifically for doing all the things
                 //proxyManager.castGaze();
                 
+                // Prepare proxy (really tiny right now)
                 originalProxyScale = copyTo.transform.localScale;
                 copyTo.transform.localScale = Vector3.zero;
                 copyTo.SetActive(true);
 
+                // Reset and prepare glows
+                SetHandGlow(0, leftHandGlow);
+                SetHandGlow(0, rightHandGlow);
+                
+                SetHandGlow(Color.cyan);
+                SetHandGlow(1);
+
                 DisableHandInteraction(activeHand);
                 break;
             case ProxyState.Flipped:
-                //copyTo.SetActive(true);
+                //copyTo.SetActive(true); // Now we grow and glow instead
                 copyTo.transform.localScale = originalProxyScale;
+                SetHandGlow(0);
                 break;
         }
 
@@ -128,12 +181,17 @@ public class HandGestureManager : MonoBehaviour
         {
             default:
             case ProxyState.Default:
+                // Update hand glows
+                SetHandGlow(leftHand.palmUp ? 0 : GetBoundedPercent(leftHand.graspPercent, 0.15f, 1f), leftHandGlow);
+                SetHandGlow(rightHand.palmUp ? 0 : GetBoundedPercent(rightHand.graspPercent, 0.15f, 1f), rightHandGlow);
+
+                // Check for conflicting interaction
                 if (activeHand.hand.isGraspingObject || activeHand.hand.isPrimaryHovering) // Don't interfere with grabbing close objects
                 {
-                    Debug.Log("Ignore gesture");
                     break;
                 }
 
+                // Check transition conditions
                 if (isGrasp)
                 {
                     if (palmUp) { }
@@ -152,11 +210,17 @@ public class HandGestureManager : MonoBehaviour
                 // Update proxy size based on grasp percentage
                 if (palmUp)
                 {
-                    float proxyScaleFactor = Mathf.Max(Mathf.Min((maxGrabPercent - activeHand.graspPercent) / (maxGrabPercent - minGrabPercent), 1), 0);
+                    //float proxyScaleFactor = Mathf.Max(Mathf.Min((maxGrabPercent - activeHand.graspPercent) / (maxGrabPercent - minGrabPercent), 1), 0);
+                    float proxyScaleFactor = 1 - GetBoundedPercent(activeHand.graspPercent, minGrabPercent, maxGrabPercent);
+                    Debug.Log(activeHand.graspPercent + " | " + proxyScaleFactor);
                     copyTo.transform.localScale = originalProxyScale * proxyScaleFactor;
+
+                    // Also update glow opacity
+                    SetHandGlow(Mathf.Max(1 - proxyScaleFactor * 1.5f, 0));
                 }
 
-				if (isGrasp)
+                // Check transition conditions
+                if (isGrasp)
                 {
                     if (palmUp) { }
                     else { }
@@ -174,6 +238,7 @@ public class HandGestureManager : MonoBehaviour
                 }
                 break;
 			case ProxyState.Flipped:
+                // Check transition conditions
                 if (isGrasp)
                 {
                     if (palmUp)

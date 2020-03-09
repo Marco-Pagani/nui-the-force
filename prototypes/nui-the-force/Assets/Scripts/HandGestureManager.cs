@@ -144,22 +144,28 @@ public class HandGestureManager : MonoBehaviour
 
                 break;
             case ProxyState.Grabbed:
-                proxyManager.createProxyScene(); // TODO Make method specifically for doing all the things
-                //proxyManager.castGaze();
-                
-                // Prepare proxy (really tiny right now)
-                originalProxyScale = copyTo.transform.localScale;
-                copyTo.transform.localScale = Vector3.zero;
-                copyTo.SetActive(true);
+                if (proxyManager.castGaze())
+                {
+                    // Prepare proxy (really tiny right now)
+                    originalProxyScale = copyTo.transform.localScale;
+                    copyTo.transform.localScale = Vector3.zero;
+                    copyTo.SetActive(true);
 
-                // Reset and prepare glows
-                SetHandGlow(0, leftHandGlow);
-                SetHandGlow(0, rightHandGlow);
-                
-                SetHandGlow(Color.cyan);
-                SetHandGlow(1);
+                    // Reset and prepare glows
+                    SetHandGlow(0, leftHandGlow);
+                    SetHandGlow(0, rightHandGlow);
 
-                DisableHandInteraction(activeHand);
+                    SetHandGlow(Color.cyan);
+                    SetHandGlow(1);
+
+                    DisableHandInteraction(activeHand);
+                    Debug.Log("Yea proxy");
+                }
+                else
+                {
+                    Debug.Log("No proxy");
+                    nextState = ProxyState.Default; // Force quit the gesture recognition
+                }
                 break;
             case ProxyState.Flipped:
                 //copyTo.SetActive(true); // Now we grow and glow instead

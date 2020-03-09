@@ -6,9 +6,10 @@ using UnityEngine;
 public class map_to_proxy : MonoBehaviour
 {
 
-    //TODO: these variable names could be better
-	
-	public Transform gaze;
+    //these variable names could be better
+
+    //the look direction of the meta headset
+    public Transform gaze;
 
     // parent of the 'real' objects that are being remotely controlled
     public Transform sceneObjects;
@@ -24,33 +25,30 @@ public class map_to_proxy : MonoBehaviour
     // scale of the proxy objects relative to the real
     public float scaleFactor = 0.5f;
 
-    // mex distance from the copy origin that objects will be copied
+    // max distance from the copy origin that objects will be copied
     public float renderDistance = 10f;
 
-	public bool castGaze(){
-		Vector3 lookDirection = gaze.forward;
-		
-		RaycastHit hit;
-        
-        if (Physics.SphereCast(gaze.position,2, gaze.TransformDirection(Vector3.forward), out hit, Mathf.Infinity,(1 << 9)))
-        {
-            //Debug.DrawRay(gaze.position, gaze.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-			copyOrigin.transform.position = hit.point;
-			createProxyScene();
-            Debug.Log("Did Hit");
-            return true;
-        }
-        else
-        {
-            
-            Debug.Log("Did not Hit");
-            return false;
-        }
-		
-	}
+    // layermask for raycasting
+    public LayerMask mask;
 
 
     //this should be called when the user reaches for an object
+    public bool castGaze()
+    {
+        RaycastHit hit;
+
+        if (Physics.SphereCast(gaze.position, 1f, gaze.TransformDirection(Vector3.forward), out hit, Mathf.Infinity /*,mask.value*/ ))
+        {
+            //Debug.DrawRay(gaze.position, gaze.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            copyOrigin.transform.position = hit.point;
+            createProxyScene();
+            return true;
+        }
+        else
+            return false;
+    }
+
+
     public void createProxyScene()
     {
         // delete old scene in case it exists
@@ -65,18 +63,19 @@ public class map_to_proxy : MonoBehaviour
 
         foreach (Collider c in area)
         {
-			if(c.transform != null && c.transform.IsChildOf(sceneObjects)){
-            var child = c.transform;
-            //create clone
-            GameObject proxyObj = Instantiate(child, proxyOrigin).gameObject;
-            //set clone's position relative to copy origin
-            proxyObj.transform.localPosition = copyOrigin.InverseTransformPoint(child.position);
-            proxyObj.transform.localRotation = child.localRotation;
-            //add proxy component to clone and set vars
-            var proxyComp = proxyObj.AddComponent<Proxy>() as Proxy;
-            proxyComp.copyOrigin = copyOrigin;
-            proxyComp.sceneObject = child;
-			}
+            if (c.transform != null && c.transform.IsChildOf(sceneObjects))
+            {
+                var child = c.transform;
+                //create clone
+                GameObject proxyObj = Instantiate(child, proxyOrigin).gameObject;
+                //set clone's position relative to copy origin
+                proxyObj.transform.localPosition = copyOrigin.InverseTransformPoint(child.position);
+                proxyObj.transform.localRotation = child.localRotation;
+                //add proxy component to clone and set vars
+                var proxyComp = proxyObj.AddComponent<Proxy>() as Proxy;
+                proxyComp.copyOrigin = copyOrigin;
+                proxyComp.sceneObject = child;
+            }
         }
     }
 
@@ -84,18 +83,6 @@ public class map_to_proxy : MonoBehaviour
     {
         foreach (Transform child in proxyOrigin)
             Destroy(child.gameObject);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown("e"))
-        {
-            castGaze();
-        }
-        if (Input.GetKeyDown("r"))
-        {
-            deleteProxyScene();
-        }
     }
 
 }

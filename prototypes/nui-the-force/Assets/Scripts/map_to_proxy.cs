@@ -31,6 +31,8 @@ public class map_to_proxy : MonoBehaviour
     // layermask for raycasting
     public LayerMask mask;
 
+    public Shader miniObjectShader;
+
 
     //this should be called when the user reaches for an object
     public bool castGaze()
@@ -71,6 +73,8 @@ public class map_to_proxy : MonoBehaviour
                 //set clone's position relative to copy origin
                 proxyObj.transform.localPosition = copyOrigin.InverseTransformPoint(child.position);
                 proxyObj.transform.localRotation = child.localRotation;
+                //set shader of proxy object
+                proxyObj.GetComponent<Renderer>().material.shader = miniObjectShader;
                 //add proxy component to clone and set vars
                 var proxyComp = proxyObj.AddComponent<Proxy>() as Proxy;
                 proxyComp.copyOrigin = copyOrigin;

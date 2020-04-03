@@ -1355,6 +1355,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 512
+  miniObjectShader: {fileID: 4800000, guid: 90cadb91a7902754f9fe5b4563306677, type: 3}
 --- !u!4 &1836188328
 Transform:
   m_ObjectHideFlags: 0

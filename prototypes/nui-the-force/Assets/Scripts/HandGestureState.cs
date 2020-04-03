@@ -22,6 +22,8 @@ public class HandGestureState : MonoBehaviour
     public bool isGrasp = false;
 	public bool palmUp = false;
 
+    public Camera leapCamera;
+    public float outOfRangeThreshold = .95f;
 
     public void StartGrasp()
 	{
@@ -79,9 +81,29 @@ public class HandGestureState : MonoBehaviour
     private void Update() {
 		if (!hand.isTracked)
 		{
-            // Reset grasp (sometimes gets out of sync)
-            graspPercent = 0;
-            palmAngle = 180;
+            // Check if hand is leaving frame or is being occluded
+            if (leapCamera != null)
+            {
+                Vector3 viewPos = leapCamera.WorldToViewportPoint(hand.position);
+                if (Mathf.Abs(viewPos.x) > outOfRangeThreshold || Mathf.Abs(viewPos.y) > outOfRangeThreshold)
+                {
+                    // Hand just went out of range
+                    graspPercent = 0;
+                    palmAngle = 180;
+                }
+                else
+                {
+                    // Hand was likely occluded
+                }
+            }
+            else
+            {
+                // Reset grasp (sometimes gets out of sync)
+                //graspPercent = 0;
+                //palmAngle = 180;
+
+                // TODO Check if it's actually fine to not reset these values
+            }
         }
 		else
 		{

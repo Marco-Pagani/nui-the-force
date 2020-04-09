@@ -31,6 +31,11 @@ public class map_to_proxy : MonoBehaviour
     // layermask for raycasting
     public LayerMask mask;
 
+    //for transparency
+    private GameObject sphere;
+    private Renderer render;
+    private Color tempcolor;
+
 
     //this should be called when the user reaches for an object
     public bool castGaze()
@@ -75,9 +80,42 @@ public class map_to_proxy : MonoBehaviour
                 var proxyComp = proxyObj.AddComponent<Proxy>() as Proxy;
                 proxyComp.copyOrigin = copyOrigin;
                 proxyComp.sceneObject = child;
+
+                //isabel's addition for transparency
+                makeTransparent();
             }
         }
     }
+
+    // Update is called once per frame
+  public void makeTransparent(){
+    render = gameObject.GetComponent<Renderer>();
+    GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+    foreach(GameObject go in allObjects){
+      if (go.activeInHierarchy)
+         if ( go.GetComponent<Renderer>() != null){
+           Renderer rend =  go.GetComponent<Renderer>();
+           Material material = gameObject.GetComponent<Renderer>().material;
+           tempcolor = gameObject.GetComponent<Renderer>().material.color;
+           tempcolor.a = 0.4f;
+           material.color = tempcolor;
+           rend.material = material;
+       }
+        makeSelectedOpaque();
+      }
+    }
+
+    public void makeSelectedOpaque(){
+      //sceneObjects is the "selected object"
+      print(sceneObjects +" is the selected object");
+      Renderer rendSobj =  sceneObjects.GetComponent<Renderer>();
+      Material materialSobj = SelectedObject.GetComponent<Renderer>().material;
+      tempcolor = SelectedObject.GetComponent<Renderer>().material.color;
+      tempcolor.a = 1f;
+      materialSobj.color = tempcolor;
+      rendSobj.material = materialSobj;
+    }
+
 
     public void deleteProxyScene()
     {

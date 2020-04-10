@@ -109,8 +109,8 @@ public class map_to_proxy : MonoBehaviour
       //sceneObjects is the "selected object"
       print(sceneObjects +" is the selected object");
       Renderer rendSobj =  sceneObjects.GetComponent<Renderer>();
-      Material materialSobj = SelectedObject.GetComponent<Renderer>().material;
-      tempcolor = SelectedObject.GetComponent<Renderer>().material.color;
+      Material materialSobj = sceneObjects.GetComponent<Renderer>().material;
+      tempcolor = sceneObjects.GetComponent<Renderer>().material.color;
       tempcolor.a = 1f;
       materialSobj.color = tempcolor;
       rendSobj.material = materialSobj;
@@ -121,6 +121,23 @@ public class map_to_proxy : MonoBehaviour
     {
         foreach (Transform child in proxyOrigin)
             Destroy(child.gameObject);
+        makeAllOpaque();
     }
+
+    public void makeAllOpaque(){
+      render = gameObject.GetComponent<Renderer>();
+      GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+      foreach(GameObject go in allObjects){
+        if (go.activeInHierarchy)
+           if ( go.GetComponent<Renderer>() != null){
+             Renderer rend =  go.GetComponent<Renderer>();
+             Material material = gameObject.GetComponent<Renderer>().material;
+             tempcolor = gameObject.GetComponent<Renderer>().material.color;
+             tempcolor.a = 1f;
+             material.color = tempcolor;
+             rend.material = material;
+         }
+        }
+      }
 
 }

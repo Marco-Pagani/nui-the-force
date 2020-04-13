@@ -31,6 +31,8 @@ public class HandGestureManager : MonoBehaviour
     private Vector3 originalProxyScale = Vector3.one;
     private float minGrabPercent = 0.5f;
     private float maxGrabPercent = 1f;
+    private float fallSpeed = 8.0f; //Julia addition: speed of mic drop 
+    private float disappearTime = 5.0f; //Julia addition: time till disappear after mic drop 
 
     // Start is called before the first frame update
     void Start()
@@ -239,6 +241,13 @@ public class HandGestureManager : MonoBehaviour
                     }
                     else
                     {
+                        copyTo.transform.Translate(Vector3.down * fallSpeed * Time.deltaTime); //Julia addition: mic drop 
+                        StartCoroutine(ShowAndHide(copyTo, disappearTime)); //Julia addition: disappear after mic drop 
+                        IEnumerator ShowAndHide(GameObject copyTo, float delay)
+                        {
+                            yield return new WaitForSeconds(delay);
+                            copyTo.SetActive(false);
+                        }
                         TransitionState(ProxyState.Default);
                     }
                 }

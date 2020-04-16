@@ -30,8 +30,8 @@ public class map_to_proxy : MonoBehaviour
 
     // layermask for raycasting
     public LayerMask mask;
-
     public Shader miniObjectShader;
+    
     //for transparency
     private GameObject sphere;
     private Renderer render;

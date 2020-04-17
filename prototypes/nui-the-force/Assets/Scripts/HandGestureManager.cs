@@ -254,12 +254,21 @@ public class HandGestureManager : MonoBehaviour
                         // TransitionState(ProxyState.Default);
                         Debug.Log("Dropping proxy objects...\n\tProxy Scale:\t" + (1 - GetBoundedPercent(activeHand.graspPercent, minGrabPercent, maxGrabPercent)));
 
-                        copyTo.transform.Translate(Vector3.down * fallSpeed * Time.deltaTime); //Julia addition: mic drop 
-                        StartCoroutine(ShowAndHide(copyTo, disappearTime)); //Julia addition: disappear after mic drop 
+                        var drop = Instantiate(copyTo);
+                        drop.GetComponent<SnapToObject>().enabled = false;
+                        // Destroy(drop.GetComponent<SnapToObject>());
+
+                        // make proxy visable
+                        drop.transform.localPosition = copyTo.transform.localPosition - copyTo.GetComponent<SnapToObject>().offset;
+                        drop.transform.localScale = originalProxyScale * 0.5f;
+                        drop.AddComponent<Rigidbody>();
+
+                        // copyTo.transform.Translate(Vector3.down * fallSpeed * Time.deltaTime); //Julia addition: mic drop 
+                        StartCoroutine(ShowAndHide(drop, disappearTime)); //Julia addition: disappear after mic drop 
                         IEnumerator ShowAndHide(GameObject copyTo, float delay)
                         {
                             yield return new WaitForSeconds(delay);
-                            copyTo.SetActive(false);
+                            Destroy(drop);
                         }
                         TransitionState(ProxyState.Default);
                     }

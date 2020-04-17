@@ -38,6 +38,8 @@ public class map_to_proxy : MonoBehaviour
     private Renderer render;
     private Color tempcolor;
 
+  List<GameObject> copiedObjs = new List<GameObject>();
+
 
     //this should be called when the user reaches for an object
     public bool castGaze()
@@ -73,6 +75,8 @@ public class map_to_proxy : MonoBehaviour
             if (c.transform != null && c.transform.IsChildOf(sceneObjects))
             {
                 var child = c.transform;
+                copiedObjs.Add(c.gameObject);
+
                 //create clone
                 GameObject proxyObj = Instantiate(child, proxyOrigin).gameObject;
                 //set clone's position relative to copy origin
@@ -88,14 +92,14 @@ public class map_to_proxy : MonoBehaviour
                 // pc2.color = 1;
 
                 //isabel's addition for transparency
-                // makeTransparent();
+                makeTransparent();
             }
         }
     }
 
     // Update is called once per frame
   public void makeTransparent(){
-    render = gameObject.GetComponent<Renderer>();
+    // render = gameObject.GetComponent<Renderer>();
     GameObject[] allObjects = GameObject.FindGameObjectsWithTag("proxiable"); //UnityEngine.Object.FindObjectsOfType<GameObject>();
     foreach(GameObject go in allObjects){
       if (go.activeInHierarchy)
@@ -103,7 +107,7 @@ public class map_to_proxy : MonoBehaviour
            Renderer rend =  go.GetComponent<Renderer>();
            Material material = go.GetComponent<Renderer>().material;
            tempcolor = go.GetComponent<Renderer>().material.color;
-           tempcolor.a = 0.4f;
+           tempcolor.a = 0.2f;
            material.color = tempcolor;
            rend.material = material;
        }
@@ -114,12 +118,16 @@ public class map_to_proxy : MonoBehaviour
     public void makeSelectedOpaque(){
       //sceneObjects is the "selected object"
       print(sceneObjects +" is the selected object");
-      Renderer rendSobj =  sceneObjects.GetComponent<Renderer>();
-      Material materialSobj = sceneObjects.GetComponent<Renderer>().material;
-      tempcolor = sceneObjects.GetComponent<Renderer>().material.color;
-      tempcolor.a = 1f;
-      materialSobj.color = tempcolor;
-      rendSobj.material = materialSobj;
+      foreach(GameObject go in copiedObjs)
+      {
+          Renderer rendSobj = go.GetComponent<Renderer>();
+          Material materialSobj = go.GetComponent<Renderer>().material;
+          tempcolor = go.GetComponent<Renderer>().material.color;
+          tempcolor.a = 1f;
+          materialSobj.color = tempcolor;
+          rendSobj.material = materialSobj;
+
+      }
     }
 
 
@@ -127,11 +135,11 @@ public class map_to_proxy : MonoBehaviour
     {
         foreach (Transform child in proxyOrigin)
             Destroy(child.gameObject);
-        // makeAllOpaque();
+        makeAllOpaque();
     }
 
     public void makeAllOpaque(){
-      render = gameObject.GetComponent<Renderer>();
+      // render = gameObject.GetComponent<Renderer>();
         GameObject[] allObjects = GameObject.FindGameObjectsWithTag("proxiable"); //UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach(GameObject go in allObjects){
         if (go.activeInHierarchy)

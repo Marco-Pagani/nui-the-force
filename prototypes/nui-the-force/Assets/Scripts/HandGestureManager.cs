@@ -228,14 +228,6 @@ public class HandGestureManager : MonoBehaviour
                     // Also update glow opacity
                     SetHandGlow(Mathf.Max(1 - proxyScaleFactor * 1.5f, 0));
                 }
-                else
-                {
-                    // float proxyScaleFactor = 1 - GetBoundedPercent(activeHand.graspPercent, minGrabPercent, maxGrabPercent);
-                    // copyTo.transform.localScale = originalProxyScale * proxyScaleFactor;
-                    // Debug.Log("Current Position:\t" + copyTo.transform.localPosition +"\nOriginal Position:\t" + originalProxyPosition + "\nNew Position:\t\t" + (originalProxyPosition - (Vector3.down * fallSpeed * proxyScaleFactor)));
-                    // copyTo.transform.localPosition = originalProxyPosition - (Vector3.down * fallSpeed * proxyScaleFactor);
-                    // SetHandGlow(Mathf.Max(1 - proxyScaleFactor * 1.5f, 0));
-                }
 
                 // Check transition conditions
                 if (isGrasp)
@@ -251,19 +243,14 @@ public class HandGestureManager : MonoBehaviour
                     }
                     else
                     {
-                        // TransitionState(ProxyState.Default);
-                        Debug.Log("Dropping proxy objects...\n\tProxy Scale:\t" + (1 - GetBoundedPercent(activeHand.graspPercent, minGrabPercent, maxGrabPercent)));
+                        // Debug.Log("Dropping proxy objects...\n\tProxy Scale:\t" + (1 - GetBoundedPercent(activeHand.graspPercent, minGrabPercent, maxGrabPercent)));
 
                         var drop = Instantiate(copyTo);
                         drop.GetComponent<SnapToObject>().enabled = false;
-                        // Destroy(drop.GetComponent<SnapToObject>());
-
-                        // make proxy visable
                         drop.transform.localPosition = copyTo.transform.localPosition - copyTo.GetComponent<SnapToObject>().offset;
                         drop.transform.localScale = originalProxyScale * 0.5f;
                         drop.AddComponent<Rigidbody>();
 
-                        // copyTo.transform.Translate(Vector3.down * fallSpeed * Time.deltaTime); //Julia addition: mic drop 
                         StartCoroutine(ShowAndHide(drop, disappearTime)); //Julia addition: disappear after mic drop 
                         IEnumerator ShowAndHide(GameObject copyTo, float delay)
                         {

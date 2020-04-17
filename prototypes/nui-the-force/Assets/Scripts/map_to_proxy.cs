@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using cakeslice;
-
+using Leap.Unity.Interaction;
 
 public class map_to_proxy : MonoBehaviour
 {
@@ -89,8 +89,25 @@ public class map_to_proxy : MonoBehaviour
                 var proxyComp = proxyObj.AddComponent<Proxy>() as Proxy;
                 proxyComp.copyOrigin = copyOrigin;
                 proxyComp.sceneObject = child;
-                // var pc2 = proxyObj.AddComponent<Outline>() as Outline;
-                // pc2.color = 1;
+
+                // For the hover interaction
+                var pc2 = proxyObj.AddComponent<Outline>() as Outline;
+                pc2.color = 2;
+
+                proxyObj.GetComponent<InteractionBehaviour>().OnContactBegin += delegate ()
+                {
+                    proxyObj.GetComponent<Outline>().DontEraseRenderer();
+                };
+
+                proxyObj.GetComponent<InteractionBehaviour>().OnContactStay += delegate ()
+                {
+                    proxyObj.GetComponent<Outline>().DontEraseRenderer();
+                };
+
+                proxyObj.GetComponent<InteractionBehaviour>().OnContactEnd += delegate ()
+                {
+                    proxyObj.GetComponent<Outline>().EraseRenderer();
+                };
 
                 //isabel's addition for transparency
                 makeTransparent();
@@ -107,7 +124,6 @@ public class map_to_proxy : MonoBehaviour
          if ( go.GetComponent<Renderer>() != null){
            Renderer rend =  go.GetComponent<Renderer>();
            Material material = go.GetComponent<Renderer>().material;
-           Debug.Log(go.name);
            tempcolor = go.GetComponent<Renderer>().material.color;
            tempcolor.a = 0.2f;
            material.color = tempcolor;

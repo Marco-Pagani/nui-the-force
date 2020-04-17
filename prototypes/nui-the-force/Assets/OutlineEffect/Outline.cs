@@ -36,8 +36,6 @@ namespace cakeslice
     [RequireComponent(typeof(Renderer))]
     public class Outline : MonoBehaviour
     {
-        Controller leap = new Controller();
-
         public Renderer Renderer { get; private set; }
 
         public int color;
@@ -53,29 +51,18 @@ namespace cakeslice
             Renderer = GetComponent<Renderer>();
         }
 
-        // DOES NOT WORK YET
-        //private void Update()
-        //{
-        //    Frame frame = leap.Frame();
-        //    if (frame.Hand(0).Finger(1).TipPosition.ToVector3() == transform.position)
-        //    {
-        //        eraseRenderer = false;
-        //    }
-        //    else
-        //    {
-        //        eraseRenderer = true;
-        //    }
-        //}
+        // private void OnMouseOver()
+        // {
+        //     eraseRenderer = false;
+        // }
 
-        private void OnMouseOver()
-        {
-            eraseRenderer = false;
-        }
+        // private void OnMouseExit()
+        // {
+        //     eraseRenderer = true;
+        // }
 
-        private void OnMouseExit()
-        {
-            eraseRenderer = true;
-        }
+        public void EraseRenderer() { Debug.Log("Not touching object..."); eraseRenderer = true; }
+        public void DontEraseRenderer() { Debug.Log("Touching object..."); eraseRenderer = false; }
 
         void OnEnable()
         {

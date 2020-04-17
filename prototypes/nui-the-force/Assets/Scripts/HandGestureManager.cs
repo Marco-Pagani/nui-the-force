@@ -29,9 +29,10 @@ public class HandGestureManager : MonoBehaviour
     public GlowEffect rightHandGlow;
 
     private Vector3 originalProxyScale = Vector3.one;
+    private Vector3 originalProxyPosition = Vector3.one;
     private float minGrabPercent = 0.5f;
     private float maxGrabPercent = 1f;
-    private float fallSpeed = 8.0f; //Julia addition: speed of mic drop 
+    private float fallSpeed = 1f; //Julia addition: speed of mic drop 
     private float disappearTime = 5.0f; //Julia addition: time till disappear after mic drop 
 
     // Start is called before the first frame update
@@ -71,7 +72,7 @@ public class HandGestureManager : MonoBehaviour
 	{
 		if (curState == ProxyState.Default)
 		{
-            Debug.Log("SetActiveHand: " + (hand == leftHand ? "left" : "right"));
+            // Debug.Log("SetActiveHand: " + (hand == leftHand ? "left" : "right"));
             copyTo.GetComponent<SnapToObject>().SetRoot(hand.hand.gameObject, hand == leftHand);
             activeHand = hand;
             activeHandGlow = hand == leftHand ? leftHandGlow : rightHandGlow;
@@ -150,6 +151,7 @@ public class HandGestureManager : MonoBehaviour
                 {
                     // Prepare proxy (really tiny right now)
                     originalProxyScale = copyTo.transform.localScale;
+                    originalProxyPosition = copyTo.transform.localPosition;
                     copyTo.transform.localScale = Vector3.zero;
                     copyTo.SetActive(true);
 
@@ -161,11 +163,11 @@ public class HandGestureManager : MonoBehaviour
                     SetHandGlow(1);
 
                     DisableHandInteraction(activeHand);
-                    Debug.Log("Yea proxy");
+                    // Debug.Log("Yea proxy");
                 }
                 else
                 {
-                    Debug.Log("No proxy");
+                    // Debug.Log("No proxy");
                     nextState = ProxyState.Default; // Force quit the gesture recognition
                 }
                 break;
@@ -176,7 +178,7 @@ public class HandGestureManager : MonoBehaviour
                 break;
         }
 
-        Debug.Log(nextState + ": " + (activeHand == leftHand ? "left" : "right"));
+        // Debug.Log(nextState + ": " + (activeHand == leftHand ? "left" : "right"));
         curState = nextState;
     }
 
@@ -220,11 +222,19 @@ public class HandGestureManager : MonoBehaviour
                 {
                     //float proxyScaleFactor = Mathf.Max(Mathf.Min((maxGrabPercent - activeHand.graspPercent) / (maxGrabPercent - minGrabPercent), 1), 0);
                     float proxyScaleFactor = 1 - GetBoundedPercent(activeHand.graspPercent, minGrabPercent, maxGrabPercent);
-                    Debug.Log(activeHand.graspPercent + " | " + proxyScaleFactor);
+                    // Debug.Log(activeHand.graspPercent + " | " + proxyScaleFactor);
                     copyTo.transform.localScale = originalProxyScale * proxyScaleFactor;
 
                     // Also update glow opacity
                     SetHandGlow(Mathf.Max(1 - proxyScaleFactor * 1.5f, 0));
+                }
+                else
+                {
+                    // float proxyScaleFactor = 1 - GetBoundedPercent(activeHand.graspPercent, minGrabPercent, maxGrabPercent);
+                    // copyTo.transform.localScale = originalProxyScale * proxyScaleFactor;
+                    // Debug.Log("Current Position:\t" + copyTo.transform.localPosition +"\nOriginal Position:\t" + originalProxyPosition + "\nNew Position:\t\t" + (originalProxyPosition - (Vector3.down * fallSpeed * proxyScaleFactor)));
+                    // copyTo.transform.localPosition = originalProxyPosition - (Vector3.down * fallSpeed * proxyScaleFactor);
+                    // SetHandGlow(Mathf.Max(1 - proxyScaleFactor * 1.5f, 0));
                 }
 
                 // Check transition conditions
@@ -241,6 +251,9 @@ public class HandGestureManager : MonoBehaviour
                     }
                     else
                     {
+                        // TransitionState(ProxyState.Default);
+                        Debug.Log("Dropping proxy objects...\n\tProxy Scale:\t" + (1 - GetBoundedPercent(activeHand.graspPercent, minGrabPercent, maxGrabPercent)));
+
                         copyTo.transform.Translate(Vector3.down * fallSpeed * Time.deltaTime); //Julia addition: mic drop 
                         StartCoroutine(ShowAndHide(copyTo, disappearTime)); //Julia addition: disappear after mic drop 
                         IEnumerator ShowAndHide(GameObject copyTo, float delay)

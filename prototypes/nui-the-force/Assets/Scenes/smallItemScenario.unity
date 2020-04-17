@@ -112,6 +112,38 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!84 &18491465
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_Width: 1068
+  m_Height: 631
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 7
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &21807159
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +160,7 @@ GameObject:
   - component: {fileID: 21807164}
   m_Layer: 9
   m_Name: Cube (19)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -267,7 +299,7 @@ GameObject:
   - component: {fileID: 28206788}
   m_Layer: 9
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -406,7 +438,7 @@ GameObject:
   - component: {fileID: 36920886}
   m_Layer: 9
   m_Name: Cube (12)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -592,7 +624,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
-  m_TargetTexture: {fileID: 1695093025}
+  m_TargetTexture: {fileID: 18491465}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -1044,8 +1076,8 @@ MonoBehaviour:
   sourceCamera: {fileID: 197601749}
   outlineCamera: {fileID: 124589579}
   outlineShaderMaterial: {fileID: 0}
-  renderTexture: {fileID: 1695093025}
-  extraRenderTexture: {fileID: 891806331}
+  renderTexture: {fileID: 18491465}
+  extraRenderTexture: {fileID: 1956210103}
 --- !u!114 &197601754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1074,8 +1106,8 @@ MonoBehaviour:
   sourceCamera: {fileID: 197601752}
   outlineCamera: {fileID: 1549768670}
   outlineShaderMaterial: {fileID: 0}
-  renderTexture: {fileID: 668359503}
-  extraRenderTexture: {fileID: 1711437276}
+  renderTexture: {fileID: 1673147764}
+  extraRenderTexture: {fileID: 1158672924}
 --- !u!1 &307340525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,7 +1124,7 @@ GameObject:
   - component: {fileID: 307340530}
   m_Layer: 9
   m_Name: Cube (20)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1231,7 +1263,7 @@ GameObject:
   - component: {fileID: 310455149}
   m_Layer: 9
   m_Name: Cube (16)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1370,7 +1402,7 @@ GameObject:
   - component: {fileID: 325585079}
   m_Layer: 9
   m_Name: Cube (21)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1509,7 +1541,7 @@ GameObject:
   - component: {fileID: 439250354}
   m_Layer: 9
   m_Name: Cube (6)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1648,7 +1680,7 @@ GameObject:
   - component: {fileID: 445356662}
   m_Layer: 9
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1787,7 +1819,7 @@ GameObject:
   - component: {fileID: 484610554}
   m_Layer: 9
   m_Name: Cube (14)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1926,7 +1958,7 @@ GameObject:
   - component: {fileID: 605086184}
   m_Layer: 9
   m_Name: Cube (15)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2168,38 +2200,6 @@ PrefabInstance:
       objectReference: {fileID: 197601739}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99963e07d1e263c428621dd9acb8301c, type: 3}
---- !u!84 &668359503
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_Width: 1068
-  m_Height: 631
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 7
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &678157626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,7 +2338,7 @@ GameObject:
   - component: {fileID: 743156750}
   m_Layer: 9
   m_Name: Cube (8)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2461,38 +2461,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!84 &891806331
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_Width: 1068
-  m_Height: 631
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 7
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &933416935
 GameObject:
   m_ObjectHideFlags: 0
@@ -2509,7 +2477,7 @@ GameObject:
   - component: {fileID: 933416937}
   m_Layer: 9
   m_Name: SphereRight
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2730,7 +2698,7 @@ GameObject:
   - component: {fileID: 983758065}
   m_Layer: 9
   m_Name: Cube (3)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2925,7 +2893,7 @@ GameObject:
   - component: {fileID: 1074960601}
   m_Layer: 9
   m_Name: Cube (17)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3064,7 +3032,7 @@ GameObject:
   - component: {fileID: 1098980810}
   m_Layer: 9
   m_Name: Cube (4)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3187,6 +3155,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!84 &1158672924
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_Width: 1068
+  m_Height: 631
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 7
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &1197709936
 GameObject:
   m_ObjectHideFlags: 0
@@ -3250,7 +3250,7 @@ GameObject:
   - component: {fileID: 1503694786}
   m_Layer: 9
   m_Name: Cube (11)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3436,7 +3436,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
-  m_TargetTexture: {fileID: 668359503}
+  m_TargetTexture: {fileID: 1673147764}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -3554,7 +3554,7 @@ GameObject:
   - component: {fileID: 1590645783}
   m_Layer: 9
   m_Name: SphereMiddle
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3693,7 +3693,7 @@ GameObject:
   - component: {fileID: 1632205299}
   m_Layer: 9
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3816,6 +3816,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!84 &1673147764
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_Width: 1068
+  m_Height: 631
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 7
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &1688018927
 GameObject:
   m_ObjectHideFlags: 0
@@ -3832,7 +3864,7 @@ GameObject:
   - component: {fileID: 1688018932}
   m_Layer: 9
   m_Name: Cube (9)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3955,70 +3987,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!84 &1695093025
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_Width: 1068
-  m_Height: 631
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 7
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
---- !u!84 &1711437276
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_Width: 1068
-  m_Height: 631
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 7
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &1718128708
 GameObject:
   m_ObjectHideFlags: 0
@@ -4035,7 +4003,7 @@ GameObject:
   - component: {fileID: 1718128713}
   m_Layer: 9
   m_Name: Cube (5)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4174,7 +4142,7 @@ GameObject:
   - component: {fileID: 1722899163}
   m_Layer: 9
   m_Name: Cube (18)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4343,7 +4311,7 @@ GameObject:
   - component: {fileID: 1803551632}
   m_Layer: 9
   m_Name: SphereLeft
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4466,6 +4434,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803551630}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!84 &1956210103
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_Width: 1068
+  m_Height: 631
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 7
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &1962683534
 GameObject:
   m_ObjectHideFlags: 0
@@ -4482,7 +4482,7 @@ GameObject:
   - component: {fileID: 1962683539}
   m_Layer: 9
   m_Name: Cube (7)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4713,7 +4713,7 @@ GameObject:
   - component: {fileID: 2057528232}
   m_Layer: 9
   m_Name: Cube (13)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4852,7 +4852,7 @@ GameObject:
   - component: {fileID: 2068526093}
   m_Layer: 9
   m_Name: Cube (10)
-  m_TagString: Untagged
+  m_TagString: proxiable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

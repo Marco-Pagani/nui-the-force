@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using cakeslice;
 
 
 public class map_to_proxy : MonoBehaviour
@@ -83,9 +84,11 @@ public class map_to_proxy : MonoBehaviour
                 var proxyComp = proxyObj.AddComponent<Proxy>() as Proxy;
                 proxyComp.copyOrigin = copyOrigin;
                 proxyComp.sceneObject = child;
+                // var pc2 = proxyObj.AddComponent<Outline>() as Outline;
+                // pc2.color = 1;
 
                 //isabel's addition for transparency
-                makeTransparent();
+                // makeTransparent();
             }
         }
     }
@@ -93,13 +96,13 @@ public class map_to_proxy : MonoBehaviour
     // Update is called once per frame
   public void makeTransparent(){
     render = gameObject.GetComponent<Renderer>();
-    GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+    GameObject[] allObjects = GameObject.FindGameObjectsWithTag("proxiable"); //UnityEngine.Object.FindObjectsOfType<GameObject>();
     foreach(GameObject go in allObjects){
       if (go.activeInHierarchy)
          if ( go.GetComponent<Renderer>() != null){
            Renderer rend =  go.GetComponent<Renderer>();
-           Material material = gameObject.GetComponent<Renderer>().material;
-           tempcolor = gameObject.GetComponent<Renderer>().material.color;
+           Material material = go.GetComponent<Renderer>().material;
+           tempcolor = go.GetComponent<Renderer>().material.color;
            tempcolor.a = 0.4f;
            material.color = tempcolor;
            rend.material = material;
@@ -124,23 +127,23 @@ public class map_to_proxy : MonoBehaviour
     {
         foreach (Transform child in proxyOrigin)
             Destroy(child.gameObject);
-        makeAllOpaque();
+        // makeAllOpaque();
     }
 
     public void makeAllOpaque(){
       render = gameObject.GetComponent<Renderer>();
-      GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-      foreach(GameObject go in allObjects){
+        GameObject[] allObjects = GameObject.FindGameObjectsWithTag("proxiable"); //UnityEngine.Object.FindObjectsOfType<GameObject>();
+        foreach(GameObject go in allObjects){
         if (go.activeInHierarchy)
            if ( go.GetComponent<Renderer>() != null){
              Renderer rend =  go.GetComponent<Renderer>();
-             Material material = gameObject.GetComponent<Renderer>().material;
-             tempcolor = gameObject.GetComponent<Renderer>().material.color;
+             Material material = go.GetComponent<Renderer>().material;
+             tempcolor = go.GetComponent<Renderer>().material.color;
              tempcolor.a = 1f;
              material.color = tempcolor;
              rend.material = material;
-         }
+          }
         }
-      }
+    }
 
 }

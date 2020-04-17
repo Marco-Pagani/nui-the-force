@@ -25,10 +25,6 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-using Leap;
-using Leap.Unity;
-using Leap.Unity.Attributes;
-using Leap.Unity.Interaction;
 
 namespace cakeslice
 {
@@ -61,16 +57,16 @@ namespace cakeslice
         //     eraseRenderer = true;
         // }
 
-        public void EraseRenderer() { Debug.Log("Not touching object..."); eraseRenderer = true; }
-        public void DontEraseRenderer() { Debug.Log("Touching object..."); eraseRenderer = false; }
+        public void EraseRenderer() { eraseRenderer = true; }
+        public void DontEraseRenderer() { eraseRenderer = false; }
 
         void OnEnable()
         {
-			IEnumerable<OutlineEffect> effects = Camera.allCameras.AsEnumerable()
-				.Select(c => c.GetComponent<OutlineEffect>())
-				.Where(e => e != null);
+            IEnumerable<OutlineEffect> effects = Camera.allCameras.AsEnumerable()
+                .Select(c => c.GetComponent<OutlineEffect>())
+                .Where(e => e != null);
 
-			foreach (OutlineEffect effect in effects)
+            foreach (OutlineEffect effect in effects)
             {
                 effect.AddOutline(this);
             }
@@ -78,11 +74,11 @@ namespace cakeslice
 
         void OnDisable()
         {
-			IEnumerable<OutlineEffect> effects = Camera.allCameras.AsEnumerable()
-				.Select(c => c.GetComponent<OutlineEffect>())
-				.Where(e => e != null);
+            IEnumerable<OutlineEffect> effects = Camera.allCameras.AsEnumerable()
+                .Select(c => c.GetComponent<OutlineEffect>())
+                .Where(e => e != null);
 
-			foreach (OutlineEffect effect in effects)
+            foreach (OutlineEffect effect in effects)
             {
                 effect.RemoveOutline(this);
             }

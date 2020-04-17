@@ -79,6 +79,7 @@ public class map_to_proxy : MonoBehaviour
 
                 //create clone
                 GameObject proxyObj = Instantiate(child, proxyOrigin).gameObject;
+                proxyObj.tag = "Untagged";
                 //set clone's position relative to copy origin
                 proxyObj.transform.localPosition = copyOrigin.InverseTransformPoint(child.position);
                 proxyObj.transform.localRotation = child.localRotation;
@@ -106,6 +107,7 @@ public class map_to_proxy : MonoBehaviour
          if ( go.GetComponent<Renderer>() != null){
            Renderer rend =  go.GetComponent<Renderer>();
            Material material = go.GetComponent<Renderer>().material;
+           Debug.Log(go.name);
            tempcolor = go.GetComponent<Renderer>().material.color;
            tempcolor.a = 0.2f;
            material.color = tempcolor;
@@ -117,7 +119,7 @@ public class map_to_proxy : MonoBehaviour
 
     public void makeSelectedOpaque(){
       //sceneObjects is the "selected object"
-      print(sceneObjects +" is the selected object");
+      // print(sceneObjects +" is the selected object");
       foreach(GameObject go in copiedObjs)
       {
           Renderer rendSobj = go.GetComponent<Renderer>();

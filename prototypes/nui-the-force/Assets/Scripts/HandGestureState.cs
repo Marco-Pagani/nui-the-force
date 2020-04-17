@@ -81,35 +81,37 @@ public class HandGestureState : MonoBehaviour
     private void Update() {
 		if (!hand.isTracked)
 		{
-            // Check if hand is leaving frame or is being occluded
-            if (leapCamera != null)
-            {
-                Vector3 viewPos = leapCamera.WorldToViewportPoint(hand.position);
-                if (Mathf.Abs(viewPos.x) > outOfRangeThreshold || Mathf.Abs(viewPos.y) > outOfRangeThreshold)
-                {
-                    // Hand just went out of range
-                    graspPercent = 0;
-                    palmAngle = 180;
-                }
-                else
-                {
-                    // Hand was likely occluded
-                }
-            }
-            else
-            {
-                // Reset grasp (sometimes gets out of sync)
-                //graspPercent = 0;
-                //palmAngle = 180;
+            graspPercent = 0;
 
-                // TODO Check if it's actually fine to not reset these values
-            }
+            // // Check if hand is leaving frame or is being occluded
+            // if (leapCamera != null)
+            // {
+            //     Vector3 viewPos = leapCamera.WorldToViewportPoint(hand.position);
+            //     if (Mathf.Abs(viewPos.x) > outOfRangeThreshold || Mathf.Abs(viewPos.y) > outOfRangeThreshold)
+            //     {
+            //         // Hand just went out of range
+            //         graspPercent = 0;
+            //         // palmAngle = 180;
+            //     }
+            //     else
+            //     {
+            //         // Hand was likely occluded
+            //     }
+            // }
+            // else
+            // {
+            //     // Reset grasp (sometimes gets out of sync)
+            //     //graspPercent = 0;
+            //     //palmAngle = 180;
+
+            //     // TODO Check if it's actually fine to not reset these values
+            // }
         }
 		else
 		{
             // Check for recognition grap and palm up
             graspPercent = Mathf.Min(hand.leapHand.GrabAngle / Mathf.PI, 1);
-            palmAngle = 180 - Mathf.Abs(180 - (hand.leapHand.PalmNormal.Roll % 360)); // Normalize to [0, 180]
+            // palmAngle = 180 - Mathf.Abs(180 - (hand.leapHand.PalmNormal.Roll % 360)); // Normalize to [0, 180]
         }
 
         if (graspPercent > graspOnThreshold)
@@ -121,13 +123,13 @@ public class HandGestureState : MonoBehaviour
             EndGrasp();
         }
 
-        if (palmAngle < palmUpThreshold)
-        {
-            StartPalmUp();
-        }
-        else if (palmAngle > palmDownThreshold)
-        {
-            EndPalmUp();
-        }
+        // if (palmAngle < palmUpThreshold)
+        // {
+        //     StartPalmUp();
+        // }
+        // else if (palmAngle > palmDownThreshold)
+        // {
+        //     EndPalmUp();
+        // }
 	}
 }

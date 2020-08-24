@@ -6,9 +6,9 @@ using Leap.Unity;
 
 public class HololensGestureManager : MonoBehaviour
 {
-    private InteractionHand activeHand;
-    public InteractionHand leftHand;
-    public InteractionHand rightHand;
+    private GameObject activeHand;
+    public GameObject leftHand;
+    public GameObject rightHand;
 
     public PinchDetector leftPinch;
     public PinchDetector rightPinch;
@@ -19,6 +19,7 @@ public class HololensGestureManager : MonoBehaviour
 
     private bool startPinch = false;
     private bool pinchActive = false;
+    private bool raycastHit = false;
     private Vector3 targetStartPos = Vector3.zero;
     private Vector3 handStartPos = Vector3.zero;
 
@@ -39,10 +40,10 @@ public class HololensGestureManager : MonoBehaviour
         {
             pinchActive = activeHand == leftHand ? leftPinch.IsPinching : rightPinch.IsPinching;
 
-            if (pinchActive)
+            if (pinchActive && raycastHit)
             {
                 // Move object
-                Vector3 movementOffset = activeHand.transform.position - handStartPos;
+                Vector3 movementOffset = activeHand.GetComponent<CapsuleHand>().GetLeapHand().PalmPosition.ToVector3() - handStartPos;
                 targetObject.transform.position = targetStartPos + movementOffset * currentScaleFactor;
             }
             else
@@ -54,38 +55,38 @@ public class HololensGestureManager : MonoBehaviour
         {
             // Update targetReticule... save targetObject anyways
             RaycastHit hitInfo;
-            if (Physics.Raycast(sourceCamera.transform.position, sourceCamera.transform.forward, out hitInfo, Mathf.Infinity, layerMask))
+            if (raycastHit = Physics.Raycast(sourceCamera.transform.position, sourceCamera.transform.forward, out hitInfo, Mathf.Infinity, layerMask))
             {
                 targetObject = hitInfo.collider.gameObject;
-                targetReticule.transform.position = sourceCamera.transform.forward * hitInfo.distance; // hitInfo.point;
+                targetReticule.transform.position = hitInfo.point;
                 targetReticule.SetActive(true);
+
+                // Check pinch state
+                if (leftPinch.IsPinching)
+                {
+                    activeHand = leftHand;
+                    pinchActive = true;
+                }
+                else if (rightPinch.IsPinching)
+                {
+                    activeHand = rightHand;
+                    pinchActive = true;
+                }
+
+                if (pinchActive)
+                {
+                    targetReticule.SetActive(false);
+                    targetStartPos = targetObject.transform.position;
+                    handStartPos = activeHand.GetComponent<CapsuleHand>().GetLeapHand().PalmPosition.ToVector3();
+                    
+                    float distance = Vector3.Distance(sourceCamera.transform.position, targetObject.transform.position);
+                    currentScaleFactor = 1 + distance * movementScaleRate;
+                }
             }
             else
             {
                 targetObject = null;
                 targetReticule.SetActive(false);
-            }
-
-            // Check pinch state
-            if (leftPinch.IsPinching)
-            {
-                activeHand = leftHand;
-                pinchActive = true;
-            }
-            else if (rightPinch.IsPinching)
-            {
-                activeHand = rightHand;
-                pinchActive = true;
-            }
-
-            if (pinchActive)
-            {
-                targetReticule.SetActive(false);
-                targetStartPos = targetObject.transform.position;
-                handStartPos = activeHand.transform.position;
-                
-                float distance = Vector3.Distance(sourceCamera.transform.position, targetObject.transform.position);
-                currentScaleFactor = 1 + distance * movementScaleRate;
             }
         }
     }

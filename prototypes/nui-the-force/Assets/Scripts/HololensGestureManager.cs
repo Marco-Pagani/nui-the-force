@@ -17,12 +17,14 @@ public class HololensGestureManager : MonoBehaviour
     public GameObject targetReticule;
     private GameObject targetObject;
 
+    private bool startPinch = false;
     private bool pinchActive = false;
     private Vector3 targetStartPos = Vector3.zero;
     private Vector3 handStartPos = Vector3.zero;
 
     public float movementScaleRate = .1f;
     private float currentScaleFactor = 1;
+    private int layerMask = 1 << 11;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +38,7 @@ public class HololensGestureManager : MonoBehaviour
         if (pinchActive)
         {
             pinchActive = activeHand == leftHand ? leftPinch.IsPinching : rightPinch.IsPinching;
-            
+
             if (pinchActive)
             {
                 // Move object
@@ -52,10 +54,10 @@ public class HololensGestureManager : MonoBehaviour
         {
             // Update targetReticule... save targetObject anyways
             RaycastHit hitInfo;
-            if (Physics.Raycast(sourceCamera.transform.position, sourceCamera.transform.forward, out hitInfo))
+            if (Physics.Raycast(sourceCamera.transform.position, sourceCamera.transform.forward, out hitInfo, Mathf.Infinity, layerMask))
             {
                 targetObject = hitInfo.collider.gameObject;
-                targetReticule.transform.position = hitInfo.point;
+                targetReticule.transform.position = sourceCamera.transform.forward * hitInfo.distance; // hitInfo.point;
                 targetReticule.SetActive(true);
             }
             else

@@ -53,7 +53,7 @@ public class IronmanGesture : MonoBehaviour
                     if(leapH.IsPinching())
                     {
                         _startPalmPos = leapH.PalmPosition.ToVector3();
-                        _startTargetPos = leapH.PalmPosition.ToVector3() + leapH.PalmNormal.ToVector3() * hit.distance;
+                        _startTargetPos = hit.collider.gameObject.transform.position;// leapH.PalmPosition.ToVector3() + leapH.PalmNormal.ToVector3() * hit.distance;
                         _scaleFactor = 1 + hit.distance * 1f;
                     }
                 }

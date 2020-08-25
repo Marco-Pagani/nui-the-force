@@ -45,10 +45,13 @@ public class HololensGestureManager : MonoBehaviour
                 // Move object
                 Vector3 movementOffset = activeHand.GetComponent<CapsuleHand>().GetLeapHand().PalmPosition.ToVector3() - handStartPos;
                 targetObject.transform.position = targetStartPos + movementOffset * currentScaleFactor;
+
+                Logger.Instance.Log("Move", targetObject.transform.position);
             }
             else
             {
                 targetReticule.SetActive(true);
+                Logger.Instance.Log("EndMove", targetObject.transform.position);
             }
         }
         else
@@ -81,6 +84,8 @@ public class HololensGestureManager : MonoBehaviour
                     
                     float distance = Vector3.Distance(sourceCamera.transform.position, targetObject.transform.position);
                     currentScaleFactor = 1 + distance * movementScaleRate;
+
+                    Logger.Instance.Log("StartMove", targetObject.name);
                 }
             }
             else

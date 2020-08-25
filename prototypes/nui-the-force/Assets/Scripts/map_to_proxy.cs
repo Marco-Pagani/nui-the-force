@@ -9,6 +9,8 @@ public class map_to_proxy : MonoBehaviour
 
     //these variable names could be better
 
+    // public GameObject targetReticle;
+
     //the look direction of the meta headset
     public Transform gaze;
 
@@ -45,21 +47,29 @@ public class map_to_proxy : MonoBehaviour
     public bool castGaze()
     {
         RaycastHit hit;
+        // targetReticle.SetActive(true);
 
         if (Physics.SphereCast(gaze.position, 1f, gaze.TransformDirection(Vector3.forward), out hit, Mathf.Infinity /*,mask.value*/ ))
         {
             //Debug.DrawRay(gaze.position, gaze.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            copyOrigin.transform.position = hit.point;
+            copyOrigin.transform.position = hit.point; // targetReticle.transform.position = hit.point;
+            // targetReticle.GetComponent<MeshRenderer>().material.color = Color.green;
             createProxyScene();
             return true;
         }
         else
+        {
+            // targetReticle.transform.position = gaze.position + gaze.forward * 3;
+            // targetReticle.GetComponent<MeshRenderer>().material.color = Color.red;
             return false;
+        }
     }
 
 
     public void createProxyScene()
     {
+        // targetReticle.SetActive(false);
+
         // delete old scene in case it exists
         deleteProxyScene();
 
@@ -90,24 +100,24 @@ public class map_to_proxy : MonoBehaviour
                 proxyComp.copyOrigin = copyOrigin;
                 proxyComp.sceneObject = child;
 
-                // For the hover interaction
-                var pc2 = proxyObj.AddComponent<Outline>() as Outline;
-                pc2.color = 2;
+                // // For the hover interaction
+                // var pc2 = proxyObj.AddComponent<Outline>() as Outline;
+                // pc2.color = 2;
 
-                proxyObj.GetComponent<InteractionBehaviour>().OnContactBegin += delegate ()
-                {
-                    proxyObj.GetComponent<Outline>().DontEraseRenderer();
-                };
+                // proxyObj.GetComponent<InteractionBehaviour>().OnContactBegin += delegate ()
+                // {
+                //     proxyObj.GetComponent<Outline>().DontEraseRenderer();
+                // };
 
-                proxyObj.GetComponent<InteractionBehaviour>().OnContactStay += delegate ()
-                {
-                    proxyObj.GetComponent<Outline>().DontEraseRenderer();
-                };
+                // proxyObj.GetComponent<InteractionBehaviour>().OnContactStay += delegate ()
+                // {
+                //     proxyObj.GetComponent<Outline>().DontEraseRenderer();
+                // };
 
-                proxyObj.GetComponent<InteractionBehaviour>().OnContactEnd += delegate ()
-                {
-                    proxyObj.GetComponent<Outline>().EraseRenderer();
-                };
+                // proxyObj.GetComponent<InteractionBehaviour>().OnContactEnd += delegate ()
+                // {
+                //     proxyObj.GetComponent<Outline>().EraseRenderer();
+                // };
 
                 //isabel's addition for transparency
                 makeTransparent();

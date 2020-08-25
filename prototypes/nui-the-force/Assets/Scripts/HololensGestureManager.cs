@@ -50,7 +50,7 @@ public class HololensGestureManager : MonoBehaviour
             }
             else
             {
-                targetReticule.SetActive(true);
+                targetReticule.GetComponent<MeshRenderer>().material.color = Color.green; // .SetActive(true);
                 Logger.Instance.Log("EndMove", targetObject.transform.position);
             }
         }
@@ -58,11 +58,12 @@ public class HololensGestureManager : MonoBehaviour
         {
             // Update targetReticule... save targetObject anyways
             RaycastHit hitInfo;
+            targetReticule.SetActive(true);
             if (raycastHit = Physics.Raycast(sourceCamera.transform.position, sourceCamera.transform.forward, out hitInfo, Mathf.Infinity, layerMask))
             {
                 targetObject = hitInfo.collider.gameObject;
                 targetReticule.transform.position = hitInfo.point;
-                targetReticule.SetActive(true);
+                targetReticule.GetComponent<MeshRenderer>().material.color = Color.green; // .SetActive(true);
 
                 // Check pinch state
                 if (leftPinch.IsPinching)
@@ -91,7 +92,8 @@ public class HololensGestureManager : MonoBehaviour
             else
             {
                 targetObject = null;
-                targetReticule.SetActive(false);
+                targetReticule.transform.position = sourceCamera.transform.position + sourceCamera.transform.forward * 5;
+                targetReticule.GetComponent<MeshRenderer>().material.color = Color.red;  // SetActive(false);
             }
         }
     }

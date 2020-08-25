@@ -10,7 +10,7 @@ public class ConditionSelection : MonoBehaviour
 
     private const int LEVELS = 6, TECHS = 3, START = 0, TRANSITION = 19, END = 20;
 
-    private int _techChoice, _levelChoice, _currScene = 0, _lastScene, _pid;
+    private int _techChoice, _levelChoice, _currScene = 0, _lastScene;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,6 @@ public class ConditionSelection : MonoBehaviour
 
     public void StartLevel()
     {
-        _pid = Convert.ToInt32(pidText.GetComponent<Text>().text);
         _techChoice = techDropdown.GetComponent<Dropdown>().value;
         _levelChoice = levelDropdown.GetComponent<Dropdown>().value;
 

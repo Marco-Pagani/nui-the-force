@@ -19,9 +19,9 @@ public class LogStarter : MonoBehaviour
         string condition = cs.techDropdown.GetComponent<Text>().text;
         string level = SceneManager.GetActiveScene().buildIndex.ToString();
 
-        Logger.Instance.StartLog(pid, condition, level);
-        Logger.Instance.Log("Pid", SceneManager.GetActiveScene().name);
-        Logger.Instance.Log("StartLevel", SceneManager.GetActiveScene().name);
+        MyLogger.Instance.StartLog(pid, condition, level);
+        MyLogger.Instance.Log("Pid", SceneManager.GetActiveScene().name);
+        MyLogger.Instance.Log("StartLevel", SceneManager.GetActiveScene().name);
         startTime = DateTime.Now;
 
         //metaHeadset = FindObjectOfType<MetaCompositor>().gameObject;
@@ -34,8 +34,8 @@ public class LogStarter : MonoBehaviour
 
     private void OnDestroy()
     {
-        Logger.Instance.Log("EndLevel", SceneManager.GetActiveScene().name);
-        Logger.Instance.Log("Duration", (DateTime.Now - startTime).Seconds);
-        Logger.Instance.StopLog();
+        MyLogger.Instance.Log("EndLevel", SceneManager.GetActiveScene().name);
+        MyLogger.Instance.Log("Duration", (DateTime.Now - startTime).Seconds);
+        MyLogger.Instance.StopLog();
     }
 }

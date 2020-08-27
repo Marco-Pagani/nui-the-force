@@ -5,14 +5,14 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Logger
+public class MyLogger
 {
-    private static Logger _instance;
-    public static Logger Instance
+    private static MyLogger _instance;
+    public static MyLogger Instance
     {
         get
         {
-            if (_instance == null) _instance = new Logger();
+            if (_instance == null) _instance = new MyLogger();
             return _instance;
         }
     }
@@ -21,7 +21,7 @@ public class Logger
     private string logFilename = "";
     private StreamWriter logWriter;
 
-    public Logger()
+    public MyLogger()
     {
     }
 

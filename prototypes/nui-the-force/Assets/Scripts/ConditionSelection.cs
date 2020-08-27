@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,7 @@ public class ConditionSelection : MonoBehaviour
 
     private int _techChoice, _levelChoice, _currScene = 0, _lastScene, _currLevel, _lastLevel;
     private bool _break = false;
+    private MyScenes _scenes;
 
     // Start is called before the first frame update
     void Start()
@@ -77,23 +79,33 @@ public class ConditionSelection : MonoBehaviour
         // }
 
         // For the case that there is one scene that holds every level
-        _break = GameObject.Find("break_scene").activeSelf;
+        // _break = GameObject.Find("break_scene").activeSelf;
+        foreach (GameObject go in _scenes.Levels) if (go.name == "break_scene") _break = go.activeSelf;
 
         if (_break)
         {
             _currLevel++;
-            GameObject.Find("break_scene").SetActive(false);
-            GameObject.Find("level_" + _currLevel).SetActive(true);
+            foreach (GameObject go in _scenes.Levels)
+            {
+                if (go.name == "break_scene") go.SetActive(false);
+                else if (go.name == "level_" + _currLevel) go.SetActive(true);
+            }
         }
         else if (_currLevel != LEVELS - 1)
         {
-            GameObject.Find("level_" + _currLevel).SetActive(false);
-            GameObject.Find("break_scene").SetActive(true);
+            foreach (GameObject go in _scenes.Levels)
+            {
+                if (go.name == "break_scene") go.SetActive(true);
+                else if (go.name == "level_" + _currLevel) go.SetActive(false);
+            }
         }
         else if (_currLevel == LEVELS - 1)
         {
-            GameObject.Find("level_" + _currLevel).SetActive(false);
-            GameObject.Find("end_scene").SetActive(true);
+            foreach (GameObject go in _scenes.Levels)
+            {
+                if (go.name == "end_scene") go.SetActive(true);
+                else if (go.name == "level_" + _currLevel) go.SetActive(false);
+            }
         }
         else
         {
@@ -103,28 +115,24 @@ public class ConditionSelection : MonoBehaviour
 
     public void InitializeScene()
     {
-        GameObject.Find("cover").SetActive(false);
-        switch(_techChoice)
+        _scenes = new MyScenes();
+        _scenes.GetSceneInfo();
+
+        switch (_techChoice)
         {
             case 1:
-                GameObject.Find("[HoloGestureManager]").SetActive(false);
-                GameObject.Find("[IronmanGestureManager]").SetActive(false);
+                foreach (GameObject go in _scenes.Techniques) if (go.name == "[ForceGestureManager]") { go.SetActive(true); break; }
                 break;
             case 2:
-                GameObject.Find("[HoloGestureManager]").SetActive(false);
-                GameObject.Find("[IronmanGestureManager]").SetActive(false);
+                foreach (GameObject go in _scenes.Techniques) if (go.name == "[HoloGestureManager]") { go.SetActive(true); break; }
                 break;
             case 3:
-                GameObject.Find("[ForceGestureManager]").SetActive(false);
-                GameObject.Find("[HoloGestureManager]").SetActive(false);
+                foreach (GameObject go in _scenes.Techniques) if (go.name == "[IronmanGestureManager]") { go.SetActive(true); break; }
                 break;
             default:
                 break;
         }
 
-        for (int i = 0; i < LEVELS; i++)
-        {
-            if(i != _currLevel) GameObject.Find("level_" + i.ToString()).SetActive(false);
-        }
+        foreach (GameObject go in _scenes.Levels) if (go.name == "level_" + _currLevel.ToString()) { go.SetActive(true); break; }
     }
 }

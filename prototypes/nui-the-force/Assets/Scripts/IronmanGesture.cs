@@ -54,7 +54,7 @@ public class IronmanGesture : MonoBehaviour
                     {
                         _startPalmPos = leapH.PalmPosition.ToVector3();
                         _startTargetPos = hit.collider.gameObject.transform.position;// leapH.PalmPosition.ToVector3() + leapH.PalmNormal.ToVector3() * hit.distance;
-                        _scaleFactor = 1 + hit.distance * 1f;
+                        _scaleFactor = 1 + Vector3.Distance(_startPalmPos, _startTargetPos) * 1f;
                     }
                 }
                 else
@@ -64,7 +64,7 @@ public class IronmanGesture : MonoBehaviour
                         Debug.DrawRay(leapH.PalmPosition.ToVector3(), leapH.PalmNormal.ToVector3() * 3, Color.yellow);
                     }
 
-                    indicator.transform.position = leapH.PalmPosition.ToVector3() + leapH.PalmNormal.ToVector3() * 3;
+                    indicator.transform.position = leapH.PalmPosition.ToVector3() + leapH.PalmNormal.ToVector3() * 5;
                     indicator.GetComponent<MeshRenderer>().material.color = Color.red;
                 }
             }

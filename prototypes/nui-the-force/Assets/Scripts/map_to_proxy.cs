@@ -9,8 +9,6 @@ public class map_to_proxy : MonoBehaviour
 
     //these variable names could be better
 
-    // public GameObject targetReticle;
-
     //the look direction of the meta headset
     public Transform gaze;
 
@@ -53,14 +51,11 @@ public class map_to_proxy : MonoBehaviour
         {
             //Debug.DrawRay(gaze.position, gaze.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             copyOrigin.transform.position = hit.point; // targetReticle.transform.position = hit.point;
-            // targetReticle.GetComponent<MeshRenderer>().material.color = Color.green;
             createProxyScene();
             return true;
         }
         else
         {
-            // targetReticle.transform.position = gaze.position + gaze.forward * 3;
-            // targetReticle.GetComponent<MeshRenderer>().material.color = Color.red;
             return false;
         }
     }
@@ -68,8 +63,6 @@ public class map_to_proxy : MonoBehaviour
 
     public void createProxyScene()
     {
-        // targetReticle.SetActive(false);
-
         // delete old scene in case it exists
         deleteProxyScene();
 

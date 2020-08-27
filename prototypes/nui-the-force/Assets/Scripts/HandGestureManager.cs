@@ -18,8 +18,9 @@ public class HandGestureManager : MonoBehaviour
 
     public map_to_proxy proxyManager;
     public GameObject copyTo;
+    public GameObject targetReticle;
 
-	public HandGestureState leftHand;
+    public HandGestureState leftHand;
 	public HandGestureState rightHand;
 
     private GlowEffect activeHandGlow;
@@ -34,6 +35,8 @@ public class HandGestureManager : MonoBehaviour
     private float maxGrabPercent = 1f;
     private float fallSpeed = 1f; //Julia addition: speed of mic drop 
     private float disappearTime = 5.0f; //Julia addition: time till disappear after mic drop 
+    private bool _raycastHit = false;
+    private int _layerMask = 1 << 11;
 
     // Start is called before the first frame update
     void Start()
@@ -136,6 +139,7 @@ public class HandGestureManager : MonoBehaviour
         {
             default:
             case ProxyState.Default:
+                targetReticle.SetActive(true);
                 EnableHandInteraction(activeHand);
                 proxyManager.deleteProxyScene();
                 copyTo.SetActive(false);
@@ -147,6 +151,7 @@ public class HandGestureManager : MonoBehaviour
 
                 break;
             case ProxyState.Grabbed:
+                targetReticle.SetActive(false);
                 if (proxyManager.castGaze())
                 {
                     // Prepare proxy (really tiny right now)
@@ -182,10 +187,30 @@ public class HandGestureManager : MonoBehaviour
         curState = nextState;
     }
 
+    private void UpdateReticle()
+    {
+        RaycastHit hit;
+        if(targetReticle.activeSelf) 
+        {
+            if (_raycastHit = Physics.Raycast(proxyManager.gaze.position, proxyManager.gaze.forward, out hit, Mathf.Infinity, _layerMask))
+            {
+                targetReticle.transform.position = hit.point;
+                targetReticle.GetComponent<MeshRenderer>().material.color = Color.green;
+            }
+            else
+            {
+                targetReticle.transform.position = proxyManager.gaze.position + proxyManager.gaze.forward * 5;
+                targetReticle.GetComponent<MeshRenderer>().material.color = Color.red;
+            }
+        }
+    }
+
     private void Update()
     {
 		bool isGrasp = activeHand.isGrasp;
 		bool palmUp = activeHand.palmUp;
+
+        UpdateReticle();
 
         switch (curState)
         {
